@@ -1,5 +1,12 @@
 import { createHash } from "crypto";
 
+export interface BlockTransaction {
+  to: string;
+  from: string;
+  amount: number;
+  message: string;
+}
+
 export interface BlockProps {
   height: number;
   timestamp: string;
@@ -11,7 +18,7 @@ export interface BlockProps {
 export class Block {
   height: number;
   timestamp: string;
-  transactions: any[];
+  transactions: BlockTransaction[];
   previous_hash: string;
   nonce: number;
   hash: string;

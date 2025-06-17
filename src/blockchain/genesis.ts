@@ -11,7 +11,7 @@ export const createGenesisBlock = async () => {
       height: 0,
       timestamp: new Date().toISOString(),
       transactions: [],
-      previous_hash: "0",
+      previous_hash: "0000000000000000000000000000000000000000000000000000000000000000",
       nonce: 0,
     });
 
