@@ -1,2 +1,2 @@
-# -BOND
+# $BOND
 A centralized cryptocurrency
