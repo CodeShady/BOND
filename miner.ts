@@ -2,9 +2,9 @@ import { createHash } from "crypto";
 
 // --- CONFIGURE THESE VALUES ---
 const DIFFICULTY = 16; // Must match your backend
-const height = 2; // Set to the next block height
-const previous_hash = "00001cf1c4e5cf13a5d948af19117c35568f664d079c89453eedc63564f98dba"; // Set to last block's hash
-const transactions: any = [{ to: "finn.wallet", from: "genesis.wallet" }]; // Fill with your transactions
+const height = 4; // Set to the next block height
+const previous_hash = "0000b7fe992578d064eee8d0116e5f9319d8c71f78832a10a9474605ae0c9a78"; // Set to last block's hash
+const transactions: any = []; // Fill with your transactions
 const timestamp = new Date().toISOString(); // Or set manually
 // ------------------------------
 

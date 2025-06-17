@@ -1,7 +1,8 @@
 import db from "../db";
 import { hexToBinary } from "../utils/hash.util";
 import { validateISOStringTimestamp } from "../utils/time.util";
-import { Block } from "./block";
+import { Block, BlockTransaction } from "./block";
+import { mempool } from "./mempool";
 
 const DIFFICULTY = 16; // Number of leading zero bits required
 
@@ -26,10 +27,29 @@ export const insertBlock = async (blockData: any) => {
     nonce: blockData.nonce,
   });
 
+  // Ensure there ARE transactions present
+  if (block.transactions.length === 0) throw new Error("Block must contain at least one transaction");
+
   // Proof of work check
   const binaryHash = hexToBinary(block.hash);
   if (!binaryHash.startsWith("0".repeat(DIFFICULTY))) {
     throw new Error("Proof of Work not satisifed");
+  }
+
+  // Ensure all transactions have valid hashes
+  for (const tx of block.transactions) {
+    // Recompute txid from transaction fields (excluding txid)
+    const { txid, ...txFields } = tx;
+    const recomputedTxid = mempool.generateTxid(txFields as BlockTransaction);
+    if (txid !== recomputedTxid) {
+      throw new Error(`Transaction hash mismatch for txid: ${txid}`);
+    }
+  }
+
+  // Clear mempool
+  const txids = block.transactions.map((tx) => tx.txid);
+  if (!mempool.hasAll(txids)) {
+    throw new Error("Block contains transaction(s) not present in mempool");
   }
 
   // Save to database
@@ -41,6 +61,9 @@ export const insertBlock = async (blockData: any) => {
     block.nonce,
     block.hash
   ]);
+
+  // Remove transactions only after successful insert
+  mempool.clear(txids);
 };
 
 export const fetchLatestBlock = async () => {
@@ -65,3 +88,24 @@ export const fetchAllBlocks = async (direction: "ASC" | "DESC" = "DESC") => {
     transactions: JSON.parse(block.transactions)
   }))
 };
+
+export const fetchWalletBalance = async (address: string): Promise<number> => {
+  let balance = 0;
+
+  // Confirmed transactions
+  const allBlocks = await fetchAllBlocks();
+  for (const block of allBlocks) {
+    for (const tx of block.transactions) {
+      if (tx.recipient === address) balance += tx.amount;
+      if (tx.sender === address) balance -= tx.amount;
+    }
+  }
+
+  // Pending transactions
+  for (const tx of mempool.getAll()) {
+    if (tx.recipient === address) balance += tx.amount;
+    if (tx.sender === address) balance -= tx.amount;
+  }
+
+  return balance;
+}

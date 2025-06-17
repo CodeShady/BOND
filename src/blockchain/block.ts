@@ -1,9 +1,11 @@
 import { createHash } from "crypto";
 
 export interface BlockTransaction {
-  to: string;
-  from: string;
+  txid: string;
+  sender: string;
+  recipient: string;
   amount: number;
+  timestamp: string;
   message: string;
 }
 

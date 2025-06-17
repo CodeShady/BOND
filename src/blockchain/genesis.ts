@@ -10,7 +10,12 @@ export const createGenesisBlock = async () => {
     const genesisBlock = new Block({
       height: 0,
       timestamp: new Date().toISOString(),
-      transactions: [],
+      transactions: [
+        {
+          recipient: "finn",
+          amount: 42,
+        }
+      ],
       previous_hash: "0000000000000000000000000000000000000000000000000000000000000000",
       nonce: 0,
     });
