@@ -6,14 +6,14 @@ import { errorMiddleware } from './utils/error.util';
 dotenv.config();
 
 const app: Application = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 7123;
 
 // Middleware
 app.use(express.json());
-app.use("/", blockchainRouter);
+app.use("/api/", blockchainRouter);
 app.use(errorMiddleware);
 
 // Start app
 app.listen(port, () => {
-  console.log(`Server is Fire at http://localhost:${port}`);
+  console.log(`Blockchain core is running http://localhost:${port}`);
 });
