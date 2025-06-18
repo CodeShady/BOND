@@ -5,7 +5,7 @@ import { validateISOStringTimestamp } from "../utils/time.util";
 import { Block, BlockTransaction } from "./block";
 import { mempool } from "./mempool";
 
-const DIFFICULTY = 16; // Number of leading zero bits required
+export const DIFFICULTY = 16; // Number of leading zero bits required
 
 // Blockchain logic (add block, validate, etc.)
 export const insertBlock = async (blockData: any) => {

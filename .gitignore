@@ -134,9 +134,13 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Other
 package-lock.json
-tools/miner.js
+miner.js
 *.pem
-tools/makeTransaction.js
-tools/generateWallet.js
+makeTransaction.js
+generateWallet.js
+blockchain.sqlite
+.DS_Store
 blockchain.sqlite

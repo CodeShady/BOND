@@ -1,6 +1,16 @@
 import { NextFunction, Request, Response } from "express";
-import { fetchAllBlocks, fetchLatestBlock, insertBlock } from "../blockchain";
+import { DIFFICULTY, fetchAllBlocks, fetchLatestBlock, insertBlock } from "../blockchain";
 import { Block } from "../blockchain/block";
+
+export const getBlockchainDifficulty = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    res.status(200).json({
+      difficulty: DIFFICULTY
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const getWelcome = async (req: Request, res: Response, next: NextFunction) => {
   try {
