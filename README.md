@@ -1,20 +1,19 @@
-# $BOND
-
-A centralized cryptocurrency built with Node.js, TypeScript, Express, and SQLite.
+# 💸 $BOND
+A centralized cryptocurrency for fun, experimentation, and learning — built with Node.js, TypeScript, Express, and SQLite.
 
 ## Overview
 
-$BOND is a simple blockchain implementation designed for educational and experimental purposes. It features a RESTful API for interacting with the blockchain, submitting transactions, mining blocks, and querying wallet balances. The project uses a centralized SQLite database to persist the blockchain. The mempool is stored in memory.
+$BOND is a playful and educational blockchain implementation that simulates real-world crypto mechanics without decentralization headaches. It features a RESTful API for interacting with the blockchain, submitting transactions, mining blocks, and querying wallet balances. The project uses a centralized SQLite database to persist the blockchain. The mempool is stored in memory.
 
-## Features
+### 🛠 Features
 
-- **Blockchain**: Each block contains a list of signed transactions, a timestamp, a nonce, and references the previous block's hash.
-- **Proof of Work**: Blocks are mined by finding a nonce such that the block hash has a configurable number of leading zero bits (default: 16).
-- **Transaction Signing**: Transactions are signed using ECDSA (secp256k1). The sender address is the SHA-256 hash of the public key.
-- **Mempool**: Pending transactions are stored in-memory until included in a block.
-- **Genesis Block**: Automatically created on first run, awarding an initial balance to a hardcoded address.
-- **Wallet Tools**: CLI scripts to generate wallets, create and sign transactions, and mine blocks.
-- **API Endpoints**: RESTful routes for blocks, transactions, and balances.
+- **Blockchain Core:** Each block includes signed transactions, a timestamp, a nonce, and a hash pointer to the previous block.
+- **Proof of Work:** Configurable mining difficulty (default: 16 leading zero bits in binary).
+- **ECDSA Signatures:** Transactions are signed with `secp256k1`. Sender addresses are SHA-256 hashes of the public key.
+- **In-Memory Mempool:** Stores pending transactions until a block is mined.
+- **Genesis Block:** Awards 42 $BOND to a hardcoded address on first run.
+- **Wallet Tools:** CLI utilities to generate keys, sign txs, and mine blocks.
+- **REST API:** Full set of endpoints for blocks, balances, and transactions.
 
 ---
 
