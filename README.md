@@ -101,7 +101,7 @@ ts-node tools/miner.ts
 
 ### GET /
 
-Shows the welcome
+Shows the welcome page
 
 ### GET /blocks
 
@@ -111,8 +111,8 @@ Returns the latest block in the chain.
 ```json
 {
   "height": 1,
-  "timestamp": ...,
-  "transactions": [...],
+  "timestamp": "...",
+  "transactions": [],
   "previous_hash": "9df7...",
   "nonce": 4714,
   "hash": "0000..."
@@ -127,8 +127,8 @@ Submit a new block.
 ```json
 {
   "height": 1,
-  "timestamp": ...,
-  "transactions": [...],
+  "timestamp": "...",
+  "transactions": [],
   "previous_hash": "9df7...",
   "nonce": 4714,
   "hash": "0000..."
@@ -152,7 +152,7 @@ Get a list of all transactions in the mempool.
   {
     "txid": "fc90...",
     "sender": "c6c8...",
-    "recipient": ...,
+    "recipient": "...",
     "amount": 0.4,
     "timestamp": "2025-06-17T22:43:30.036Z",
     "message": "Hello world!",
