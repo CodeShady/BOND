@@ -1,4 +1,5 @@
 import db from "../db";
+import { verifySignature } from "../utils/crypto.util";
 import { hexToBinary } from "../utils/hash.util";
 import { validateISOStringTimestamp } from "../utils/time.util";
 import { Block, BlockTransaction } from "./block";
@@ -30,8 +31,6 @@ export const insertBlock = async (blockData: any) => {
   // Ensure there ARE transactions present
   if (block.transactions.length === 0) throw new Error("Block must contain at least one transaction");
 
-  // TODO: Ensure the signature is valid for each transaction
-
   // Proof of work check
   const binaryHash = hexToBinary(block.hash);
   if (!binaryHash.startsWith("0".repeat(DIFFICULTY))) {
@@ -40,6 +39,11 @@ export const insertBlock = async (blockData: any) => {
 
   // Ensure all transactions have valid hashes
   for (const tx of block.transactions) {
+    // Verify the signature of the transaction
+    if (!verifySignature(tx)) {
+      throw new Error(`Invalid signature for txid: ${tx.txid}`);
+    }
+
     // Recompute txid from transaction fields (excluding txid)
     const { txid, ...txFields } = tx;
     const recomputedTxid = mempool.generateTxid(txFields as BlockTransaction);
