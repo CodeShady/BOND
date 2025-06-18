@@ -10,7 +10,7 @@ blockchainRouter.get("/blocks", getLastBlock);
 blockchainRouter.get("/blocks/all", getAllBlocks);
 blockchainRouter.post("/blocks", postBlock);
 blockchainRouter.post("/transactions", postTransaction);
-blockchainRouter.get("/transactions/all", getPendingTransactions);
+blockchainRouter.get("/transactions", getPendingTransactions);
 blockchainRouter.get("/balance/:wallet", getWalletBalance);
 
 export default blockchainRouter;

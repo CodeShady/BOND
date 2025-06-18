@@ -12,7 +12,7 @@ export const createGenesisBlock = async () => {
       timestamp: new Date().toISOString(),
       transactions: [
         {
-          recipient: "finn",
+          recipient: "c6c818acf2726191d738b5970d6fcb7fe1214890a79d8d1d23b2f764de9711c3",
           amount: 42,
         }
       ],

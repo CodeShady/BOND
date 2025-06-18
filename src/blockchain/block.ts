@@ -7,6 +7,8 @@ export interface BlockTransaction {
   amount: number;
   timestamp: string;
   message: string;
+  signature: string;
+  publicKey: string;
 }
 
 export interface BlockProps {

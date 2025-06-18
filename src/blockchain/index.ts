@@ -30,6 +30,8 @@ export const insertBlock = async (blockData: any) => {
   // Ensure there ARE transactions present
   if (block.transactions.length === 0) throw new Error("Block must contain at least one transaction");
 
+  // TODO: Ensure the signature is valid for each transaction
+
   // Proof of work check
   const binaryHash = hexToBinary(block.hash);
   if (!binaryHash.startsWith("0".repeat(DIFFICULTY))) {
