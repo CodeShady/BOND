@@ -15,8 +15,6 @@ $BOND is a playful and educational blockchain implementation that simulates real
 - **Wallet Tools:** CLI utilities to generate keys, sign txs, and mine blocks.
 - **REST API:** Full set of endpoints for blocks, balances, and transactions.
 
----
-
 ## Technical Details
 
 ### Blockchain
@@ -49,14 +47,6 @@ $BOND is a playful and educational blockchain implementation that simulates real
 ### REST API
 
 Implemented in [`src/routes/blockchain.route.ts`](src/routes/blockchain.route.ts):
-
-- `GET /` — Welcome and blockchain validity check
-- `GET /blocks` — Get the latest block
-- `GET /blocks/all` — Get all blocks
-- `POST /blocks` — Submit a mined block
-- `POST /transactions` — Submit a signed transaction
-- `GET /transactions/all` — List all pending transactions
-- `GET /balance/:wallet` — Get wallet balance (confirmed + pending)
 
 ### CLI Tools
 
