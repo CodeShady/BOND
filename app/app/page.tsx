@@ -11,7 +11,7 @@ const HomePage = () => {
 
         <div className="flex flex-col sm:flex-row items-center gap-2">
           <Button variant="glass" className="pr-4!" asChild>
-            <Link href="/wallet">
+            <Link href="/create-wallet">
               <Plus /> Create new wallet
             </Link>
           </Button>

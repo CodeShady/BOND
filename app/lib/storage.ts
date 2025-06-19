@@ -28,6 +28,16 @@ export function getPublicKeyHex(privateKeyHex: string): string {
   return Buffer.from(publicKey).toString('hex');
 }
 
+export const generatePrivateKey = () => {
+  // Generate a random private key (Uint8Array)
+  const privateKey = secp.utils.randomPrivateKey();
+
+  // Convert private key to hex
+  const privateKeyHex = secp.etc.bytesToHex(privateKey);
+
+  return privateKeyHex;
+};
+
 export function getWalletAddress(publicKeyHex: string): string {
   return createHash("sha256").update(publicKeyHex).digest("hex");
 }

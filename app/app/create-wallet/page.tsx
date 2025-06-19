@@ -1,15 +1,16 @@
 "use client";
 
+import * as secp from '@noble/secp256k1';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { savePrivateKey } from "@/lib/storage";
+import { generatePrivateKey, savePrivateKey } from "@/lib/storage";
 import { Key, Plus } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const ExistingWalletPage = () => {
+const CreateWalletPage = () => {
   const router = useRouter();
-  const [privateKey, setPrivateKey] = useState<string>("");
+  const privateKey = generatePrivateKey();
 
   const handleSubmitPrivateKey = () => {
     try {
@@ -23,7 +24,9 @@ const ExistingWalletPage = () => {
   return (
     <div className="p-4 flex items-center justify-center h-[80vh]">
       <div className="flex flex-col items-center gap-2 w-full">
-        <Textarea placeholder="Private Key" onChange={(e) => setPrivateKey(e.target.value)} value={privateKey} />
+        <h1>Write down your private key</h1>
+
+        <Textarea value={privateKey} onChange={() => {}} />
         
         <Button variant="glass" className="pr-4!" onClick={handleSubmitPrivateKey}>
           Continue
@@ -33,4 +36,4 @@ const ExistingWalletPage = () => {
   );
 };
 
-export default ExistingWalletPage;
+export default CreateWalletPage;
