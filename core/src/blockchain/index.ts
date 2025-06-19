@@ -108,10 +108,39 @@ export const fetchWalletBalance = async (address: string): Promise<number> => {
   }
 
   // Pending transactions
-  for (const tx of mempool.getAll()) {
+  for (const tx of mempool.fetchAll()) {
     if (tx.recipient === address) balance += tx.amount;
     if (tx.sender === address) balance -= tx.amount;
   }
 
   return balance;
 }
+
+export const fetchWalletTransactions = async (address: string): Promise<BlockTransaction[]> => {
+  const transactions = [];
+
+  // Fetch all blocks
+  const allBlocks = await fetchAllBlocks();
+
+  // Iterate through each block's transactions
+  for (const block of allBlocks) {
+    for (const tx of block.transactions) {
+      if (tx.sender === address || tx.recipient === address)
+        transactions.push(tx);
+    }
+  }
+
+  return transactions;
+};
+
+export const fetchPendingWalletTransactions = async (address: string): Promise<BlockTransaction[]> => {
+  const transactions = [];
+
+  // Iterate through each mempool transaction
+  for (const tx of mempool.fetchAll()) {
+    if (tx.sender === address || tx.recipient === address)
+      transactions.push(tx);
+  }
+  
+  return transactions;
+};

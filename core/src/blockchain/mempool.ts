@@ -16,7 +16,7 @@ export class Mempool {
     return createHash("sha256").update(txString).digest("hex");
   }
 
-  getAll(): BlockTransaction[] {
+  fetchAll(): BlockTransaction[] {
     return this.transactions;
   }
 

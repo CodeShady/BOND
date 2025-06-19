@@ -52,7 +52,7 @@ export const postTransaction = async (req: Request, res: Response, next: NextFun
 
 export const getPendingTransactions = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const allPendingTransactions = mempool.getAll();
+    const allPendingTransactions = mempool.fetchAll();
 
     res.status(200).json(allPendingTransactions);
   } catch (error) {
