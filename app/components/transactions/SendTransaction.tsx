@@ -12,16 +12,18 @@ import {
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { ArrowUp } from "lucide-react";
 import { useState } from "react";
 import { getUserAddress, getUserPrivateKey, getUserPublicKey } from "@/lib/storage";
 import { signTransaction } from "@/lib/transaction";
 import { postTransaction } from "@/lib/api";
+import { Textarea } from "../ui/textarea";
 
 const SendTransaction = () => {
   const [recipient, setRecipient] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
 
   const handleSend = async () => {
     const transaction = await signTransaction({
@@ -29,7 +31,7 @@ const SendTransaction = () => {
       recipient,
       amount: Number(amount),
       timestamp: new Date().toISOString(),
-      message: "Sent from webapp",
+      message: message,
       publicKey: getUserPublicKey()
     }, getUserPrivateKey());
 
@@ -60,6 +62,10 @@ const SendTransaction = () => {
           <div className="grid gap-3">
             <Label htmlFor="amount">Amount</Label>
             <Input type="number" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+          </div>
+          <div className="grid gap-3">
+            <Label htmlFor="message">Message</Label>
+            <Textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} />
           </div>
         </div>
         <DialogFooter>

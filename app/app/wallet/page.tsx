@@ -1,4 +1,5 @@
-import SendTransaction from "@/components/send-transaction";
+import ReceiveTransaction from "@/components/transactions/ReceiveTransaction";
+import SendTransaction from "@/components/transactions/SendTransaction";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import UserBalance from "@/components/user/UserBalance";
@@ -28,10 +29,7 @@ const WalletPage = () => {
 
       <div className="flex items-center gap-2">
         <SendTransaction />
-
-        <Button variant="glass" className="pr-4!">
-          <ArrowDown /> Receive
-        </Button>
+        <ReceiveTransaction />
       </div>
 
       <div className="flex flex-col gap-2">
