@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  blockchain:
+    build:
+      context: ./core
+      dockerfile: Dockerfile
+    ports:
+      - "7123:7123"
+    environment:
+      - PORT=8000
+    volumes:
+      - ./core:/app
+    command: npm start

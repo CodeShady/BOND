@@ -1,10 +1,14 @@
-import { createVerify } from "crypto";
+import * as secp from "@noble/secp256k1";
 import { BlockTransaction } from "../blockchain/block";
 import { createHash } from "crypto";
 
 export const verifySignature = (transaction: BlockTransaction) => {
-  // Exclude signature and txid from the message
   const { signature, publicKey } = transaction;
+
+  // Ensure publicKey is a valid hex string
+  if (!/^[0-9a-fA-F]+$/.test(publicKey)) {
+    throw new Error("Invalid public key, must be a hex string");
+  }
 
   // Ensure sender matches hash of publicKey
   const publicKeyHash = createHash("sha256").update(publicKey).digest("hex");
@@ -14,13 +18,16 @@ export const verifySignature = (transaction: BlockTransaction) => {
 
   const message = `${transaction.sender}${transaction.recipient}${transaction.amount}${transaction.timestamp}${transaction.message}`;
 
-  const verify = createVerify("SHA256");
-  verify.update(message);
-  verify.end();
-
   try {
-    // Signature is expected to be in hex/base64, publicKey in PEM or hex
-    return verify.verify(publicKey, signature, "hex");
+    // Signature and publicKey are hex strings
+    // Hash the message
+    const msgHash = createHash("sha256").update(message).digest();
+
+    // secp.verify expects Uint8Array
+    const sigBytes = Uint8Array.from(Buffer.from(signature, "hex"));
+    const pubKeyBytes = Uint8Array.from(Buffer.from(publicKey, "hex"));
+
+    return secp.verify(sigBytes, msgHash, pubKeyBytes);
   } catch {
     return false;
   }
