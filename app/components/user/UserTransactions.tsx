@@ -1,21 +1,23 @@
 "use client";
 
 import { fetchConfirmedTransactions, fetchPendingTransactions } from "@/lib/api/fetchTransactions";
-import { ArrowDown, ArrowRight, ArrowUp, Check, Clock, Hourglass } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUp, Check, Clock } from "lucide-react";
 import { useEffect, useState } from "react";
 import HashDisplay from "../ui/HashDisplay";
 import TimeAgo from "../ui/TimeAgo";
 import { useWallet } from "@/lib/hooks/useWallet";
+import { Transaction } from "@/types";
 
 const UserTransactions = () => {
   const { address } = useWallet();
   const [loading, setLoading] = useState<boolean>(true);
-  const [confirmed, setConfirmed] = useState<any[]>([]);
-  const [pending, setPending] = useState<any[]>([]);
+  const [confirmed, setConfirmed] = useState<Transaction[]>([]);
+  const [pending, setPending] = useState<Transaction[]>([]);
 
   useEffect(() => {
+    if (!address) return ;
+    
     (async() => {
-      if (!address) return ;
       const conf = await fetchConfirmedTransactions(address);
       const pend = await fetchPendingTransactions(address);
 
@@ -24,17 +26,18 @@ const UserTransactions = () => {
 
       setLoading(false);
     })();
-  }, []);
+  }, [address]);
 
   return (
     <div className="overflow-y-scroll">
+      {loading && <p className="text-muted-foreground">Loading...</p>}
       {pending.map((tx, index) => <TransactionCard key={index} pending={true} tx={tx} />)}
       {confirmed.map((tx, index) => <TransactionCard key={index} pending={false} tx={tx} />)}
     </div>
   );
 };
 
-const TransactionCard = ({ pending, tx }: { pending: boolean; tx: any }) => {
+const TransactionCard = ({ pending, tx }: { pending: boolean; tx: Transaction }) => {
   const { address } = useWallet();
 
   if (!address) return ;

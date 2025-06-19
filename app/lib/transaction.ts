@@ -1,7 +1,8 @@
+import { NewTransaction } from "@/types";
 import * as secp from "@noble/secp256k1";
 import { createHash } from "crypto";
 
-export const signTransaction = async (transaction: any, privateKeyHex: string) => {
+export const signTransaction = async (transaction: NewTransaction, privateKeyHex: string) => {
   const transactionString = `${transaction.sender}${transaction.recipient}${transaction.amount}${transaction.timestamp}${transaction.message}`;
 
   // Hash the transaction string

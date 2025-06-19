@@ -26,7 +26,7 @@ const SendTransaction = () => {
   const [amount, setAmount] = useState<string>("");
   const [message, setMessage] = useState<string>("");
 
-  if (!privateKey) return ;
+  if (!privateKey || !publicKey || !address) return ;
 
   const handleSend = async () => {
     const transaction = await signTransaction({

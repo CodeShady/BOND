@@ -6,6 +6,7 @@ import { Key } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { generatePrivateKey } from '@/lib/crypto';
 import { savePrivateKey } from '@/lib/actions/wallet';
+import { handleError } from "@/lib/utils";
 
 const CreateWalletPage = () => {
   const router = useRouter();
@@ -15,8 +16,8 @@ const CreateWalletPage = () => {
     try {
       await savePrivateKey(privateKey);
       router.push("/wallet");
-    } catch (error: any) {
-      console.error("Invalid public key:", error.message);
+    } catch (error) {
+      handleError("Invalid public key", error);
     }
   };
 

@@ -1,1 +1,1 @@
-export const API_BASE_URL = "http://localhost:7123";
+export const API_BASE_URL = "https://bond.nfeb.io";

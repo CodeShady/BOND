@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { savePrivateKey } from "@/lib/actions/wallet";
 import { getPublicKey } from "@/lib/crypto";
+import { handleError } from "@/lib/utils";
 
 const ExistingWalletPage = () => {
   const router = useRouter();
@@ -24,11 +25,8 @@ const ExistingWalletPage = () => {
         // Redirect user to wallet
         router.push("/wallet");
       }
-    } catch (error: any) {
-      console.error(
-        "Public key failed to generate, meaning private key is invalid.",
-        error.message
-      );
+    } catch (error) {
+      handleError("Public key failed to generate, meaning private key is invalid.", error);
     }
   };
 

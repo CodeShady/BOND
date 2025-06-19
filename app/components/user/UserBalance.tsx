@@ -10,13 +10,14 @@ const UserBalance = () => {
   const [balance, setBalance] = useState<number>(0);
 
   useEffect(() => {
+    if (!address) return ;
+    
     (async () => {
-      if (!address) return ;
       const response = await fetchUserBalance(address);
       setBalance(response);
       setLoading(false);
     })();
-  }, []);
+  }, [address]);
   
   return loading ? "--.--" : balance;
 };

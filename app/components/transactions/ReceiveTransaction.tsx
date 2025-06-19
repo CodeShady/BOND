@@ -39,6 +39,7 @@ const ReceiveTransaction = () => {
         </DialogHeader>
         <div className="flex flex-col items-center w-full gap-8">
           <div className="rounded-lg shadow-sm overflow-hidden">
+            {/* eslint-disable-next-line jsx-a11y/alt-text */}
             <Image
               text={address}
               options={{
