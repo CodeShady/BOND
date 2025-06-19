@@ -19,9 +19,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="overflow-hidden">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${openSans.className} antialiased overflow-hidden`}
+        className={`${openSans.className} antialiased overflow-x-hidden`}
       >
         {/* Background gradient blobs */}
         <div className="pointer-events-none fixed top-1/2 -left-20 w-80 h-80 bg-accent/25 rounded-full blur-[100px] -translate-y-1/2" />

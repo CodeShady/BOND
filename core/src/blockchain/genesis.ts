@@ -15,6 +15,7 @@ export const createGenesisBlock = async () => {
           sender: "0000000000000000000000000000000000000000000000000000000000000000",
           recipient: "1ece0d9ff0cb58b3267006b3cc27b88322edc7d8f384296728f7663ffbdeca4d",
           amount: 42,
+          timestamp: new Date().toISOString(),
         }
       ],
       previous_hash: "0000000000000000000000000000000000000000000000000000000000000000",
