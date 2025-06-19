@@ -95,10 +95,12 @@ export const fetchAllBlocks = async (direction: "ASC" | "DESC" = "DESC") => {
   }))
 };
 
+/**
+ * Fetch the balance of a wallet based on confirmed transactions
+ */
 export const fetchWalletBalance = async (address: string): Promise<number> => {
   let balance = 0;
 
-  // Confirmed transactions
   const allBlocks = await fetchAllBlocks();
   for (const block of allBlocks) {
     for (const tx of block.transactions) {
@@ -107,14 +109,29 @@ export const fetchWalletBalance = async (address: string): Promise<number> => {
     }
   }
 
-  // Pending transactions
-  for (const tx of mempool.fetchAll()) {
-    if (tx.recipient === address) balance += tx.amount;
-    if (tx.sender === address) balance -= tx.amount;
-  }
-
   return balance;
 }
+
+/**
+ * Calculates the total amount of pending outgoing transactions for a given address.
+ *
+ * Iterates through all transactions in the mempool and sums the amounts of transactions
+ * where the sender matches the specified address.
+ *
+ * @param address - The address for which to calculate the pending outgoing amount.
+ * @returns The total amount of pending outgoing transactions for the given address.
+ */
+export const fetchPendingOutgoingAmount = (address: string) => {
+  let total = 0;
+  for (const tx of mempool.fetchAll()) {
+    if (tx.sender === address) {
+      total += tx.amount;
+    }
+  }
+  return total;
+};
+
+
 
 export const fetchWalletTransactions = async (address: string): Promise<BlockTransaction[]> => {
   const transactions = [];

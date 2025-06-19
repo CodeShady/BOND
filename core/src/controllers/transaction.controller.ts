@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { BlockTransaction } from "../blockchain/block";
 import { mempool } from "../blockchain/mempool";
-import { fetchWalletBalance } from "../blockchain";
+import { fetchPendingOutgoingAmount, fetchWalletBalance } from "../blockchain";
 import { verifySignature } from "../utils/crypto.util";
 
 export const postTransaction = async (req: Request, res: Response, next: NextFunction) => {
@@ -38,10 +38,12 @@ export const postTransaction = async (req: Request, res: Response, next: NextFun
       throw new Error("Invalid signature");
     }
 
-    // Get the balance of the sender
-    const balance = await fetchWalletBalance(transactionData.sender);
+    // Get the confirmed balance of the sender
+    const confirmedBalance = await fetchWalletBalance(transactionData.sender);
+    const pendingOutAmount = fetchPendingOutgoingAmount(transactionData.sender);
+    const availableBalance = confirmedBalance - pendingOutAmount;
 
-    if (balance < transactionData.amount) {
+    if (availableBalance < transactionData.amount) {
       throw new Error("Sender does not have sufficient funds");
     }
 
