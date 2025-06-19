@@ -1,16 +1,15 @@
 import ReceiveTransaction from "@/components/transactions/ReceiveTransaction";
 import SendTransaction from "@/components/transactions/SendTransaction";
-import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import UserBalance from "@/components/user/UserBalance";
 import UserTransactions from "@/components/user/UserTransactions";
-import { ArrowDown, ArrowUp, ArrowUpRight } from "lucide-react";
+import UserAvatar from "@/components/user/UserAvatar";
 
 const WalletPage = () => {
   return (
     <div className="p-4 flex flex-col gap-6">
       <div className="flex justify-between items-center">
-        <div className="bg-accent rounded-full w-10 h-10" />
+        <UserAvatar />
         <ThemeToggle />
       </div>
 

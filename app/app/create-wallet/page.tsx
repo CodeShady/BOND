@@ -1,20 +1,19 @@
 "use client";
 
-import * as secp from '@noble/secp256k1';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { generatePrivateKey, savePrivateKey } from "@/lib/storage";
-import { Key, Plus } from "lucide-react";
-import { useState } from "react";
+import { Key } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { generatePrivateKey } from '@/lib/crypto';
+import { savePrivateKey } from '@/lib/actions/wallet';
 
 const CreateWalletPage = () => {
   const router = useRouter();
   const privateKey = generatePrivateKey();
 
-  const handleSubmitPrivateKey = () => {
+  const handleSubmitPrivateKey = async () => {
     try {
-      savePrivateKey(privateKey);
+      await savePrivateKey(privateKey);
       router.push("/wallet");
     } catch (error: any) {
       console.error("Invalid public key:", error.message);
@@ -29,7 +28,7 @@ const CreateWalletPage = () => {
         <Textarea value={privateKey} onChange={() => {}} />
         
         <Button variant="glass" className="pr-4!" onClick={handleSubmitPrivateKey}>
-          Continue
+          <Key /> Continue
         </Button>
       </div>
     </div>

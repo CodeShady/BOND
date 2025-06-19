@@ -1,16 +1,18 @@
 "use client";
 
 import { fetchUserBalance } from "@/lib/api/fetchUserBalance";
-import { getUserAddress } from "@/lib/storage";
+import { useWallet } from "@/lib/hooks/useWallet";
 import { useEffect, useState } from "react";
 
 const UserBalance = () => {
+  const { address } = useWallet();
   const [loading, setLoading] = useState<boolean>(true);
   const [balance, setBalance] = useState<number>(0);
 
   useEffect(() => {
     (async () => {
-      const response = await fetchUserBalance(getUserAddress());
+      if (!address) return ;
+      const response = await fetchUserBalance(address);
       setBalance(response);
       setLoading(false);
     })();

@@ -1,24 +1,25 @@
 "use client";
 
 import { fetchConfirmedTransactions, fetchPendingTransactions } from "@/lib/api/fetchTransactions";
-import { getUserAddress } from "@/lib/storage";
 import { ArrowDown, ArrowRight, ArrowUp, Check, Clock, Hourglass } from "lucide-react";
 import { useEffect, useState } from "react";
 import HashDisplay from "../ui/HashDisplay";
 import TimeAgo from "../ui/TimeAgo";
+import { useWallet } from "@/lib/hooks/useWallet";
 
 const UserTransactions = () => {
+  const { address } = useWallet();
   const [loading, setLoading] = useState<boolean>(true);
   const [confirmed, setConfirmed] = useState<any[]>([]);
   const [pending, setPending] = useState<any[]>([]);
 
   useEffect(() => {
     (async() => {
-      const address = getUserAddress();
+      if (!address) return ;
       const conf = await fetchConfirmedTransactions(address);
       const pend = await fetchPendingTransactions(address);
 
-      setConfirmed(conf.reverse());
+      setConfirmed(conf);
       setPending(pend.reverse());
 
       setLoading(false);
@@ -27,18 +28,22 @@ const UserTransactions = () => {
 
   return (
     <div className="overflow-y-scroll">
-      {pending.map((tx, index) => <TransactionCard key={index} pending={true} tx={tx} userAddress={getUserAddress()} />)}
-      {confirmed.map((tx, index) => <TransactionCard key={index} pending={false} tx={tx} userAddress={getUserAddress()} />)}
+      {pending.map((tx, index) => <TransactionCard key={index} pending={true} tx={tx} />)}
+      {confirmed.map((tx, index) => <TransactionCard key={index} pending={false} tx={tx} />)}
     </div>
   );
 };
 
-const TransactionCard = ({ pending, tx, userAddress }: { pending: boolean; tx: any; userAddress: string }) => {
+const TransactionCard = ({ pending, tx }: { pending: boolean; tx: any }) => {
+  const { address } = useWallet();
+
+  if (!address) return ;
+
   return (
     <div className="w-full bg-white/15 rounded-xl p-4 mb-2 shadow-sm border border-white/10 flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <span className="text-xl font-bold flex items-center gap-1">
-          <span className="text-lg text-muted-foreground font-medium">{tx.sender === userAddress ? <ArrowUp size={16} /> : <ArrowDown size={16} />}</span>
+          <span className="text-lg text-muted-foreground font-medium">{tx.sender === address ? <ArrowUp size={16} /> : <ArrowDown size={16} />}</span>
           <span>{tx.amount}</span>
           <span className="text-sm text-muted-foreground font-medium">BOND</span>
         </span>

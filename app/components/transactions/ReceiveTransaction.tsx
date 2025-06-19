@@ -14,20 +14,14 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { ArrowDown } from "lucide-react";
-import { useState } from "react";
-import {
-  getUserAddress,
-  getUserPrivateKey,
-  getUserPublicKey,
-} from "@/lib/storage";
-import { signTransaction } from "@/lib/transaction";
-import { postTransaction } from "@/lib/api";
 import { useQRCode } from "next-qrcode";
+import { useWallet } from "@/lib/hooks/useWallet";
 
 const ReceiveTransaction = () => {
-  const [recipient, setRecipient] = useState<string>("");
-  const [amount, setAmount] = useState<string>("");
+  const { address } = useWallet();
   const { Image } = useQRCode();
+
+  if (!address) return ;
 
   return (
     <Dialog>
@@ -46,7 +40,7 @@ const ReceiveTransaction = () => {
         <div className="flex flex-col items-center w-full gap-8">
           <div className="rounded-lg shadow-sm overflow-hidden">
             <Image
-              text={getUserAddress()}
+              text={address}
               options={{
                 type: "image/jpeg",
                 quality: 1,
@@ -64,7 +58,7 @@ const ReceiveTransaction = () => {
 
           <div className="w-full flex flex-col gap-2">
             <Label htmlFor="address">Your Address</Label>
-            <Input id="address" value={getUserAddress()} onChange={() => {}} />
+            <Input id="address" value={address} onChange={() => {}} />
           </div>
         </div>
         <DialogFooter>

@@ -15,25 +15,28 @@ import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
 import { ArrowUp } from "lucide-react";
 import { useState } from "react";
-import { getUserAddress, getUserPrivateKey, getUserPublicKey } from "@/lib/storage";
 import { signTransaction } from "@/lib/transaction";
 import { postTransaction } from "@/lib/api";
 import { Textarea } from "../ui/textarea";
+import { useWallet } from "@/lib/hooks/useWallet";
 
 const SendTransaction = () => {
+  const { privateKey, publicKey, address } = useWallet();
   const [recipient, setRecipient] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
   const [message, setMessage] = useState<string>("");
 
+  if (!privateKey) return ;
+
   const handleSend = async () => {
     const transaction = await signTransaction({
-      sender: getUserAddress(),
+      sender: address,
       recipient,
       amount: Number(amount),
       timestamp: new Date().toISOString(),
       message: message,
-      publicKey: getUserPublicKey()
-    }, getUserPrivateKey());
+      publicKey: publicKey
+    }, privateKey);
 
     console.log(transaction);
 
