@@ -17,6 +17,11 @@ export const postTransaction = async (req: Request, res: Response, next: NextFun
     if (!transactionData.publicKey) throw new Error("publicKey is required");
     if (!transactionData.timestamp) throw new Error("'timestamp' is required");
 
+    // Ensure amount doesn't exceed 8 decimals
+    if (transactionData.amount.toString().includes('.') && transactionData.amount.toString().split('.')[1].length > 8) {
+      throw new Error("Amount cannot have more than 8 decimal places");
+    }
+
     const transaction: BlockTransaction = {
       txid: "",
       sender: transactionData.sender,
