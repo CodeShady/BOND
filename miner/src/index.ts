@@ -1,13 +1,18 @@
 import axios from "axios";
+import dotenv from "dotenv";
 import { createHash } from "crypto";
+import urlJoin from "url-join";
+
+// Env
+dotenv.config();
 
 // Configuration
-const CORE_API_URL = "http://localhost:8000";
+const CORE_API_URL = process.env.CORE_API_URL || "http://localhost:7123";
 const CHECK_INTERVAL_MINUTES = 2;
 
 const fetchDifficulty = async () => {
   try {
-    const response = await axios.get(`${CORE_API_URL}/difficulty`);
+    const response = await axios.get(urlJoin(CORE_API_URL, "/api/difficulty"));
     return response.data.difficulty;
   } catch (error: any) {
     console.error("Error fetching blockchain difficulty:", error.message);
@@ -17,7 +22,7 @@ const fetchDifficulty = async () => {
 
 const fetchPendingTransactions = async () => {
   try {
-    const response = await axios.get(`${CORE_API_URL}/transactions`);
+    const response = await axios.get(urlJoin(CORE_API_URL, "/api/pending"));
     return response.data;
   } catch (error: any) {
     console.error("Error fetching pending transactions:", error.message);
@@ -27,10 +32,10 @@ const fetchPendingTransactions = async () => {
 
 const fetchLastBlock = async () => {
   try {
-    const response = await axios.get(`${CORE_API_URL}/blocks`);
+    const response = await axios.get(urlJoin(CORE_API_URL, "/blocks"));
     return response.data;
   } catch (error: any) {
-    console.error("Error fetching pending transactions:", error.message);
+    console.error("Error fetching pending last block:", error.message);
     return null;
   }
 };
@@ -104,8 +109,12 @@ const checkMempoolAndMine = async () => {
   console.log(`Found ${transactions.length} transactions in mempool`);
   if (transactions.length > 0) {
     const block = await mineBlock(difficulty, transactions, lastBlock);
+    console.log("=== Found block ===");
+    console.table(block);
     await postBlock(block);
   }
+
+  console.log("Done");
 };
 
 const startMiner = () => {
