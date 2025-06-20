@@ -1,6 +1,5 @@
 import ReceiveTransaction from "@/components/transactions/ReceiveTransaction";
 import SendTransaction from "@/components/transactions/SendTransaction";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import UserBalance from "@/components/user/UserBalance";
 import UserTransactions from "@/components/user/UserTransactions";
 import UserAvatar from "@/components/user/UserAvatar";
@@ -10,7 +9,6 @@ const WalletPage = () => {
     <div className="p-4 flex flex-col gap-6">
       <div className="flex justify-between items-center">
         <UserAvatar />
-        <ThemeToggle />
       </div>
 
       <div className="flex flex-col gap-2">

@@ -43,7 +43,7 @@ const TransactionCard = ({ pending, tx }: { pending: boolean; tx: Transaction })
   if (!address) return ;
 
   return (
-    <div className="w-full bg-white/15 rounded-xl p-4 mb-2 shadow-sm border border-white/10 flex flex-col gap-2">
+    <div className="w-full bg-white/15 rounded-xl p-4 mb-2 shadow-sm border flex flex-col gap-2">
       <div className="flex items-center justify-between">
         <span className="text-xl font-bold flex items-center gap-1">
           <span className="text-lg text-muted-foreground font-medium">{tx.sender === address ? <ArrowUp size={16} /> : <ArrowDown size={16} />}</span>
@@ -63,7 +63,7 @@ const TransactionCard = ({ pending, tx }: { pending: boolean; tx: Transaction })
           className={`text-sm px-2 py-1.5 rounded-full font-semibold ${
             pending
               ? "bg-[#c97c1f] text-white"
-              : "bg-[#469f2d] text-white"
+              : "bg-transparent border text-white"
           }`}
         >
           {pending ? <Clock size={16} /> : <Check size={16} />}

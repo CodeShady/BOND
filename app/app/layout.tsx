@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
 import { WalletProvider } from "@/lib/hooks/useWallet";
 import { cookies } from "next/headers";
 import { getPublicKey, getWalletAddress } from "@/lib/crypto";
@@ -27,27 +26,20 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${openSans.className} antialiased overflow-x-hidden`}
-      >
+      <body className={`${openSans.className} antialiased overflow-x-hidden`}>
         {/* Background gradient blobs */}
         <div className="pointer-events-none fixed top-1/2 -left-20 w-80 h-80 bg-accent/25 rounded-full blur-[100px] -translate-y-1/2" />
         <div className="pointer-events-none fixed top-0 -right-20 w-80 h-80 bg-accent/25 rounded-full blur-[100px]" />
 
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <WalletProvider value={{
+        <WalletProvider
+          value={{
             publicKey,
             privateKey,
             address,
-          }}>
-            {children}
-          </WalletProvider>
-        </ThemeProvider>
+          }}
+        >
+          <div className="max-w-xl md:mx-auto">{children}</div>
+        </WalletProvider>
       </body>
     </html>
   );
