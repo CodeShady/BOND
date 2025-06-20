@@ -51,7 +51,7 @@ export const postTransaction = async (req: Request, res: Response, next: NextFun
     mempool.add(transaction);
 
     // Response
-    res.status(200).json({ status: "OK" });
+    res.status(201).json({ status: "OK" });
   } catch (error) {
     next(error);
   }
