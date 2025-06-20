@@ -6,11 +6,11 @@ import Link from "next/link";
 import { useState } from "react";
 
 const HomePage = () => {
-  const [step, setStep] = useState<number>(1);
+  const [step, setStep] = useState<number>(0);
 
   if (step === 0) {
     return (
-      <div className="flex flex-col h-screen">
+      <div className="flex flex-col max-h-screen h-screen">
         <div className="flex-1 flex justify-center px-4">
           <div className="w-full h-full bg-foreground rounded-b-full flex justify-center items-end p-[5vw]">
             <div className="w-full aspect-square rounded-full bg-gradient-to-br from-accent to-indigo-600" />
