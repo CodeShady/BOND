@@ -32,7 +32,7 @@ const fetchPendingTransactions = async () => {
 
 const fetchLastBlock = async () => {
   try {
-    const response = await axios.get(urlJoin(CORE_API_URL, "/blocks"));
+    const response = await axios.get(urlJoin(CORE_API_URL, "/api/blocks"));
     return response.data;
   } catch (error: any) {
     console.error("Error fetching pending last block:", error.message);
@@ -113,8 +113,6 @@ const checkMempoolAndMine = async () => {
     console.table(block);
     await postBlock(block);
   }
-
-  console.log("Done");
 };
 
 const startMiner = () => {
