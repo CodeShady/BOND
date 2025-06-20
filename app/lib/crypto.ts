@@ -1,3 +1,5 @@
+"use client";
+
 import * as secp from '@noble/secp256k1';
 import { createHash } from 'crypto';
 

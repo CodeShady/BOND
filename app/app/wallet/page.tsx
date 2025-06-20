@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 
 const WalletPage = () => {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="p-4 flex flex-col gap-6">
       <div className="flex justify-between items-center">
         <UserAvatar />
 

@@ -62,8 +62,8 @@ const TransactionCard = ({ pending, tx }: { pending: boolean; tx: Transaction })
         <span
           className={`text-sm px-2 py-1.5 rounded-full font-semibold ${
             pending
-              ? "bg-[#c97c1f] text-white"
-              : "bg-transparent border text-white"
+              ? "bg-transparent border text-warning"
+              : "bg-transparent border text-success"
           }`}
         >
           {pending ? <Clock size={16} /> : <Check size={16} />}

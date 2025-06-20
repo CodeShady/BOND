@@ -28,8 +28,8 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${openSans.className} antialiased overflow-x-hidden`}>
         {/* Background gradient blobs */}
-        <div className="pointer-events-none fixed top-1/2 -left-20 w-80 h-80 bg-accent/25 rounded-full blur-[100px] -translate-y-1/2" />
-        <div className="pointer-events-none fixed top-0 -right-20 w-80 h-80 bg-accent/25 rounded-full blur-[100px]" />
+        {/* <div className="pointer-events-none fixed top-1/2 -left-20 w-80 h-80 bg-accent/25 rounded-full blur-[100px] -translate-y-1/2" /> */}
+        {/* <div className="pointer-events-none fixed top-0 -right-20 w-80 h-80 bg-accent/25 rounded-full blur-[100px]" /> */}
 
         <WalletProvider
           value={{
@@ -38,7 +38,7 @@ export default async function RootLayout({
             address,
           }}
         >
-          <div className="p-4 max-w-xl md:mx-auto">{children}</div>
+          <div className="max-w-xl md:mx-auto">{children}</div>
         </WalletProvider>
       </body>
     </html>

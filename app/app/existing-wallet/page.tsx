@@ -35,7 +35,7 @@ const ExistingWalletPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-[80vh]">
+    <div className="p-4 flex items-center justify-center h-[80vh]">
       <div className="flex flex-col items-center gap-4 w-full">
         <div className="text-center space-y-2">
           <h3 className="h3">What&apos;s your private key?</h3>
