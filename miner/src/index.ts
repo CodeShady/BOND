@@ -87,7 +87,7 @@ const mineBlock = async (difficulty: number, transactions: any[], lastBlock: any
 
 const postBlock = async (block: any) => {
   try {
-    const response = await axios.post(`${CORE_API_URL}/blocks`, block);
+    const response = await axios.post(`${CORE_API_URL}/api/blocks`, block);
     if (response.data.status !== "OK") {
       throw new Error(response.data);
     }
