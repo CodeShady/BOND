@@ -12,7 +12,6 @@ import {
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "../ui/button";
 import { ArrowUp } from "lucide-react";
 import { useState } from "react";
 import { signTransaction } from "@/lib/transaction";
@@ -20,6 +19,7 @@ import { postTransaction } from "@/lib/api";
 import { Textarea } from "../ui/textarea";
 import { useWallet } from "@/lib/hooks/useWallet";
 import ConfirmAlert from "./ConfirmAlert";
+import { Button } from "../ui/button";
 
 const SendTransaction = () => {
   const { privateKey, publicKey, address } = useWallet();
@@ -72,7 +72,7 @@ const SendTransaction = () => {
               <Input type="number" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
             </div>
             <div className="grid gap-3">
-              <Label htmlFor="message">Message</Label>
+              <Label htmlFor="message">Message <span className="muted">(optional)</span></Label>
               <Textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} />
             </div>
           </div>

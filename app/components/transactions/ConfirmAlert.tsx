@@ -9,7 +9,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
 const ConfirmAlert = ({ open, onClose, confirmTransaction }: { open: boolean; onClose: () => void; confirmTransaction: () => void }) => {

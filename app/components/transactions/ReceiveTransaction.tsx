@@ -12,10 +12,10 @@ import {
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "../ui/button";
 import { ArrowDown } from "lucide-react";
 import { useQRCode } from "next-qrcode";
 import { useWallet } from "@/lib/hooks/useWallet";
+import { Button } from "../ui/button";
 
 const ReceiveTransaction = () => {
   const { address } = useWallet();
@@ -57,7 +57,7 @@ const ReceiveTransaction = () => {
             />
           </div>
 
-          <div className="w-full flex flex-col gap-2">
+          <div className="w-full space-y-3">
             <Label htmlFor="address">Your Address</Label>
             <Input id="address" value={address} onChange={() => {}} />
           </div>

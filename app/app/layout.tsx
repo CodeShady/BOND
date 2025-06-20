@@ -38,7 +38,7 @@ export default async function RootLayout({
             address,
           }}
         >
-          <div className="max-w-xl md:mx-auto">{children}</div>
+          <div className="p-4 max-w-xl md:mx-auto">{children}</div>
         </WalletProvider>
       </body>
     </html>
