@@ -40,9 +40,14 @@ const SendTransaction = () => {
       publicKey: publicKey
     }, privateKey);
 
-    console.log(transaction);
+    const transactionCreated = await postTransaction(transaction);
 
-    postTransaction(transaction);
+    if (transactionCreated) {
+      setShowConfirmation(false);
+      setTimeout(() => window.location.reload(), 300);
+    } else {
+      alert("Something wront wrong. Your transaction was unsuccessful.");
+    }
   };
 
   return (
@@ -64,16 +69,16 @@ const SendTransaction = () => {
 
           <div className="grid gap-4">
             <div className="grid gap-3">
-              <Label htmlFor="address">Wallet Address</Label>
-              <Input id="address" value={recipient} onChange={(e) => setRecipient(e.target.value)} />
+              <Label>Wallet Address</Label>
+              <Input placeholder="0000000000000000000000000000000000000000000000000000000000000000" value={recipient} onChange={(e) => setRecipient(e.target.value)} />
             </div>
             <div className="grid gap-3">
-              <Label htmlFor="amount">Amount</Label>
-              <Input type="number" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+              <Label>Amount</Label>
+              <Input placeholder="0.00" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} />
             </div>
             <div className="grid gap-3">
-              <Label htmlFor="message">Message <span className="muted">(optional)</span></Label>
-              <Textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} />
+              <Label>Message <span className="muted">(optional)</span></Label>
+              <Textarea value={message} onChange={(e) => setMessage(e.target.value)} />
             </div>
           </div>
 
@@ -83,13 +88,13 @@ const SendTransaction = () => {
             </DialogClose>
 
             <DialogClose asChild>
-              <Button onClick={() => setShowConfirmation(true)}>Confirm & Send</Button>
+              <Button onClick={() => setShowConfirmation(true)}>Review Transaction</Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      <ConfirmAlert open={showConfirmation} onClose={() => setShowConfirmation(false)} confirmTransaction={handleSend} />
+      <ConfirmAlert amount={amount} recipient={recipient} open={showConfirmation} onClose={() => setShowConfirmation(false)} confirmTransaction={handleSend} />
     </>
   );
 };

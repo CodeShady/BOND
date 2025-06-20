@@ -38,7 +38,7 @@ const ReceiveTransaction = () => {
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col items-center w-full gap-8">
-          <div className="rounded-lg shadow-sm overflow-hidden">
+          <div className="rounded-lg shadow-lg overflow-hidden">
             {/* eslint-disable-next-line jsx-a11y/alt-text */}
             <Image
               text={address}
@@ -58,13 +58,13 @@ const ReceiveTransaction = () => {
           </div>
 
           <div className="w-full space-y-3">
-            <Label htmlFor="address">Your Address</Label>
-            <Input id="address" value={address} onChange={() => {}} />
+            <Label>Your Address</Label>
+            <Input value={address} onChange={() => {}} />
           </div>
         </div>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline">Close</Button>
+            <Button>Close</Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>

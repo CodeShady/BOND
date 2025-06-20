@@ -15,7 +15,7 @@ const HashDisplay: React.FC<HashDisplayProps> = ({ hash, chars = 4, className = 
 
   return (
     <span
-      className={`font-mono text-sm px-2.5 py-1 rounded-full bg-white/15 tracking-wider ${className}`}
+      className={`font-mono text-sm px-2.5 py-1 rounded-full bg-border tracking-wider ${className}`}
       title={hash}
     >
       {start}

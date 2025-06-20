@@ -71,7 +71,7 @@ const TransactionCard = ({ pending, tx }: { pending: boolean; tx: Transaction })
       </div>
       {tx.message && (
         <div className="mt-1 text-sm text-muted-foreground italic truncate">
-          {tx.message}
+          &ldquo;{tx.message}&rdquo;
         </div>
       )}
     </div>

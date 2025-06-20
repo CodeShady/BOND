@@ -53,7 +53,7 @@ const HomePage = () => {
           <h1 className="absolute -translate-x-40 translate-y-20 -rotate-8 h1 text-xl blur-[4px] text-muted-foreground">$BOND</h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center gap-2 p-4">
+        <div className="flex flex-col items-center gap-2 p-4">
           <blockquote className="blockquote mb-6">
             &ldquo;I trust this more than my actual bank.&rdquo;<br /><span className="muted">-Brian</span>
           </blockquote>
