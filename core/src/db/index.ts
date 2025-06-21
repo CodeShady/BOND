@@ -2,7 +2,7 @@ import { createGenesisBlock } from "../blockchain/genesis";
 import Database from "./database";
 
 // Database connection/init logic
-const db = new Database("blockchain.sqlite");
+const db = new Database("data/blockchain.sqlite");
 
 // Blockchain table schema
 const createBlockchainTable = `
