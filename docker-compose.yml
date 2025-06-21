@@ -1,5 +1,5 @@
 services:
-  blockchain:
+  core:
     build:
       context: ./core
       dockerfile: Dockerfile
@@ -8,5 +8,4 @@ services:
     environment:
       - PORT=7123
     volumes:
-      - ./core:/app
-    command: npm start
+      - /share/Container/bond-core/blockchain.sqlite:/app/blockchain.sqlite
