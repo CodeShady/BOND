@@ -43,6 +43,7 @@ const ExistingWalletPage = () => {
         </div>
 
         <Input
+          type="password"
           placeholder="Private Key"
           onChange={(e) => setPrivateKey(e.target.value)}
           value={privateKey}

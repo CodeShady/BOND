@@ -12,16 +12,16 @@ const HomePage = () => {
     return (
       <div className="flex flex-col max-h-screen h-screen">
         <div className="flex-1 flex justify-center px-4">
-          <div className="w-full h-full bg-foreground rounded-b-full flex justify-center items-end p-[5vw]">
+          <div className="w-full h-full bg-foreground rounded-b-full flex justify-center items-end p-4">
             <div className="w-full aspect-square rounded-full bg-gradient-to-br from-accent to-indigo-600" />
           </div>
         </div>
 
         <div className="px-4 pt-8 pb-4">
           <h1 className="h1">
-            Effortless.
+            BOND
             <br />
-            Crypto.
+            Crypto
             <br />
             Simplified.
           </h1>
