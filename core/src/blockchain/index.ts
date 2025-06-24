@@ -1,8 +1,5 @@
-import { DIFFICULTY } from "../config";
 import db from "../db";
-import { verifySignature } from "../utils/crypto.util";
-import { hexToBinary } from "../utils/hash.util";
-import { validateISOStringTimestamp } from "../utils/time.util";
+import { isValidTimestamp, validateISOStringTimestamp } from "../utils/time.util";
 import { Block, BlockTransaction } from "./block";
 import { mempool } from "./mempool";
 
@@ -13,10 +10,11 @@ export const insertBlock = async (blockData: any) => {
 
   // Check previous hash and height
   if (blockData.previous_hash !== lastBlock.hash) throw new Error("Invalid previous hash");
-  if (blockData.height !== lastBlock.height + 1) throw new Error("Invalid block height"); 
-
+  if (blockData.height !== lastBlock.height + 1) throw new Error("Invalid block height");
+  if (!isValidTimestamp(blockData.timestamp)) throw new Error("Invalid timestamp string");
+  
   // Validate timestamp
-  await validateISOStringTimestamp(blockData.timestamp, lastBlock.timestamp);
+  validateISOStringTimestamp(blockData.timestamp, lastBlock.timestamp);
 
   // Recreate block and verify hash
   const block = new Block({
@@ -27,48 +25,8 @@ export const insertBlock = async (blockData: any) => {
     nonce: blockData.nonce,
   });
 
-  // Ensure there ARE transactions present
-  if (block.transactions.length === 0) throw new Error("Block must contain at least one transaction");
-
-  // Proof of work check
-  const binaryHash = hexToBinary(block.hash);
-  if (!binaryHash.startsWith("0".repeat(DIFFICULTY))) {
-    throw new Error("Proof of Work not satisifed");
-  }
-
-  // Ensure all transactions have valid hashes
-  for (const tx of block.transactions) {
-    // Verify the signature of the transaction
-    if (!verifySignature(tx)) {
-      throw new Error(`Invalid signature for txid: ${tx.txid}`);
-    }
-
-    // Recompute txid from transaction fields (excluding txid)
-    const { txid, ...txFields } = tx;
-    const recomputedTxid = mempool.generateTxid(txFields as BlockTransaction);
-    if (txid !== recomputedTxid) {
-      throw new Error(`Transaction hash mismatch for txid: ${txid}`);
-    }
-  }
-
-  // Clear mempool
-  const txids = block.transactions.map((tx) => tx.txid);
-  if (!mempool.hasAll(txids)) {
-    throw new Error("Block contains transaction(s) not present in mempool");
-  }
-
-  // Save to database
-  await db.executeQuery(`INSERT INTO blockchain (height, timestamp, transactions, previous_hash, nonce, hash) VALUES (?, ?, ?, ?, ?, ?)`, [
-    block.height,
-    block.timestamp,
-    JSON.stringify(block.transactions),
-    block.previous_hash,
-    block.nonce,
-    block.hash
-  ]);
-
-  // Remove transactions only after successful insert
-  mempool.clear(txids);
+  // Insert block
+  await block.insert();
 };
 
 export const fetchLatestBlock = async () => {

@@ -7,6 +7,8 @@ import urlJoin from "url-join";
 dotenv.config();
 
 // Configuration
+const REWARD_AMOUNT = 5;
+const REWARD_ADDRESS = "1ece0d9ff0cb58b3267006b3cc27b88322edc7d8f384296728f7663ffbdeca4d"; // Change me!
 const CORE_API_URL = process.env.CORE_API_URL || "http://localhost:7123";
 const CHECK_INTERVAL_MINUTES = 2;
 
@@ -92,7 +94,7 @@ const postBlock = async (block: any) => {
       throw new Error(response.data);
     }
   } catch (error: any) {
-    console.error("Block was rejected:", error.message);
+    console.error("Block was rejected:", error);
   }
 }
 
@@ -100,7 +102,7 @@ const checkMempoolAndMine = async () => {
   const difficulty = await fetchDifficulty();
   const lastBlock = await fetchLastBlock();
   const transactions = await fetchPendingTransactions();
-  
+
   if (difficulty == null || lastBlock == null) {
     console.error("Cannot mine: missing difficulty or last block.");
     return;
@@ -108,8 +110,16 @@ const checkMempoolAndMine = async () => {
 
   console.log(`Found ${transactions.length} transactions in mempool`);
   if (transactions.length > 0) {
+    // Insert coinbase tx into transactions
+    transactions.unshift({
+      sender: "coinbase",
+      recipient: REWARD_ADDRESS,
+      amount: REWARD_AMOUNT,
+      timestamp: new Date().toISOString(),
+    });
+
     const block = await mineBlock(difficulty, transactions, lastBlock);
-    console.log("=== Found block ===");
+    console.log("\n\n=== Found block ===");
     console.table(block);
     await postBlock(block);
   }

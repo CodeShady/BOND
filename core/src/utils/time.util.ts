@@ -1,6 +1,6 @@
 import { MAX_TIME_DRIFT_MS } from "../config";
 
-export const validateISOStringTimestamp = async (timestampString: string, lastBlockTimestamp: string) => {
+export const validateISOStringTimestamp = (timestampString: string, lastBlockTimestamp: string) => {
   const timestamp = Date.parse(timestampString);
   if (isNaN(timestamp)) throw new Error("Invalid timestamp format");
 
@@ -13,4 +13,13 @@ export const validateISOStringTimestamp = async (timestampString: string, lastBl
   if (timestamp <= Date.parse(lastBlockTimestamp)) {
     throw new Error("Timestamp must be greater than previous block");
   }
+};
+
+export const isValidTimestamp = (timestamp: any): boolean => {
+  // Check if tx.timestamp is a valid ISO string
+  if (typeof timestamp !== "string") return false;
+  const date = new Date(timestamp);
+  if (isNaN(date.getTime())) return false;
+  if (timestamp !== date.toISOString()) return false;
+  return true;
 };
