@@ -15,12 +15,13 @@ const UserAvatar = () => {
     return createAvatar(thumbs, {
       seed: address,
       scale: 80,
-      backgroundType: ["gradientLinear"]
+      backgroundType: ["solid"],
+      backgroundColor: ["3374ff"]
     });
   }, [address]);
 
   return (
-    <div className="rounded-full w-10 h-10 overflow-clip">
+    <div className="rounded-full w-12 h-12 overflow-clip">
       {avatar && <Image src={avatar.toDataUri()} width={64} height={64} alt="Avatar" />}
     </div>
   );

@@ -4,12 +4,18 @@ import axios from "axios";
 
 export const fetchConfirmedTransactions = async (walletAddress: string): Promise<Transaction[]> => {
   const response = await axios.get(`${API_BASE_URL}/api/transactions/${walletAddress}`);
-  if (!response.data.transactions) throw new Error("Unable to fetch confirmed transactions");
+  if (!response.data.transactions) throw new Error("Unable to fetch user's confirmed transactions");
   return response.data.transactions;
 };
 
 export const fetchPendingTransactions = async (walletAddress: string): Promise<Transaction[]> => {
   const response = await axios.get(`${API_BASE_URL}/api/pending/${walletAddress}`);
-  if (!response.data.transactions) throw new Error("Unable to fetch pending transactions");
+  if (!response.data.transactions) throw new Error("Unable to fetch user's pending transactions");
   return response.data.transactions;
+};
+
+export const fetchAllBlocks = async (): Promise<Transaction[]> => {
+  const response = await axios.get(`${API_BASE_URL}/api/blocks/all`);
+  if (!response.data) throw new Error("Unable to fetch all blocks");
+  return response.data;
 };

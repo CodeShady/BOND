@@ -19,7 +19,19 @@ const UserBalance = () => {
     })();
   }, [address]);
   
-  return loading ? "--.--" : balance;
+  if (loading) return <>--.--</>;
+
+  const balanceStr = balance.toFixed(2); // Adjust decimals as needed
+  const [intPart, decPart] = balanceStr.split(".");
+
+  return (
+    <>
+      {intPart}
+      {decPart && (
+        <span className="text-white/50 text-2xl">.{decPart}</span>
+      )}
+    </>
+  );
 };
 
 export default UserBalance;
