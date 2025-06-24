@@ -1,4 +1,4 @@
-export const MAX_TIME_DRIFT_MS = 10 * 60 * 1000; // 10 minutes
+import { MAX_TIME_DRIFT_MS } from "../config";
 
 export const validateISOStringTimestamp = async (timestampString: string, lastBlockTimestamp: string) => {
   const timestamp = Date.parse(timestampString);

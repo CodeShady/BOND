@@ -3,6 +3,7 @@ import { BlockTransaction } from "../blockchain/block";
 import { mempool } from "../blockchain/mempool";
 import { fetchPendingOutgoingAmount, fetchWalletBalance } from "../blockchain";
 import { verifySignature } from "../utils/crypto.util";
+import { MAX_TX_MESSAGE_LENGTH } from "../config";
 
 export const postTransaction = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -20,6 +21,11 @@ export const postTransaction = async (req: Request, res: Response, next: NextFun
     // Ensure amount doesn't exceed 8 decimals
     if (transactionData.amount.toString().includes('.') && transactionData.amount.toString().split('.')[1].length > 8) {
       throw new Error("Amount cannot have more than 8 decimal places");
+    }
+
+    // Ensure message doesn't exceed max length
+    if (transactionData?.message.length > 280) {
+      throw new Error(`Message exceeds limit of characters ${MAX_TX_MESSAGE_LENGTH}`)
     }
 
     const transaction: BlockTransaction = {

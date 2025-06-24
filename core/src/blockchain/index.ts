@@ -1,11 +1,10 @@
+import { DIFFICULTY } from "../config";
 import db from "../db";
 import { verifySignature } from "../utils/crypto.util";
 import { hexToBinary } from "../utils/hash.util";
 import { validateISOStringTimestamp } from "../utils/time.util";
 import { Block, BlockTransaction } from "./block";
 import { mempool } from "./mempool";
-
-export const DIFFICULTY = 22; // Number of leading zero bits required
 
 // Blockchain logic (add block, validate, etc.)
 export const insertBlock = async (blockData: any) => {
