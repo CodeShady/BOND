@@ -1,8 +1,8 @@
-import { createAgentContext, loadAgents, saveAgents, shortenedAddressBook } from "./agents";
-import { getPublicKey, getWalletAddress } from "./crypto";
-import { askLLMForResponse } from "./llm";
-import { postTransaction, signTransaction } from "./transaction";
-import { NewTransaction } from "./types";
+import { createAgentContext, loadAgents, saveAgents, shortenedAddressBook } from "./agents.js";
+import { getPublicKey, getWalletAddress } from "./crypto.js";
+import { askLLMForResponse } from "./llm.js";
+import { postTransaction, signTransaction } from "./transaction.js";
+import { NewTransaction } from "./types.js";
 
 const startAgents = async () => {
   const agents = loadAgents();

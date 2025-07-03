@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 import path from "path";
 import fs from "fs";
-import { LLMResponse } from "./types";
+import { LLMResponse } from "./types.js";
 
 // Load JSON files synchronously at runtime
 const LLMPrompt = JSON.parse(

@@ -1,7 +1,7 @@
 import * as secp from "@noble/secp256k1";
 import { createHash } from "crypto";
-import { NewTransaction } from "./types";
-import { CORE_API_URL } from "./env";
+import { NewTransaction } from "./types.js";
+import { CORE_API_URL } from "./env.js";
 import urlJoin from "url-join";
 import axios from "axios";
 
