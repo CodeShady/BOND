@@ -1,0 +1,40 @@
+{
+  "type": "json_schema",
+  "name": "transaction",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "skip": {
+        "type": "boolean",
+        "description": "True if you wish to make a transaction."
+      },
+      "recipient": {
+        "type": "string",
+        "description": "The recipient's address."
+      },
+      "amount": {
+        "type": "number",
+        "description": "Amount of BOND to be sent."
+      },
+      "message": {
+        "type": "string",
+        "description": "An optional message.",
+        "maxLength": 280
+      },
+      "notes": {
+        "type": "string",
+        "description": "Your personal notes.",
+        "maxLength": 280
+      }
+    },
+    "required": [
+      "skip",
+      "recipient",
+      "amount",
+      "message",
+      "notes"
+    ],
+    "additionalProperties": false
+  }
+}

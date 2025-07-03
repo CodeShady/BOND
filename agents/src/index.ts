@@ -1,0 +1,84 @@
+import { createAgentContext, loadAgents, saveAgents, shortenedAddressBook } from "./agents";
+import { getPublicKey, getWalletAddress } from "./crypto";
+import { askLLMForResponse } from "./llm";
+import { postTransaction, signTransaction } from "./transaction";
+import { NewTransaction } from "./types";
+
+const startAgents = async () => {
+  const agents = loadAgents();
+  const randomAgentChoice = Math.floor(Math.random() * agents.length);
+  const randomAgent = agents[randomAgentChoice];
+  const agentContext = await createAgentContext(agents[randomAgentChoice]);
+  console.log("\n====== Agent Context ======\n", agentContext);
+  return ;
+  const response = await askLLMForResponse(agentContext);
+  console.log("\n====== LLM Response ======\n", response);
+
+  // Update (the ORIGINAL VALUE) agent notes
+  agents[randomAgentChoice].notes = response.notes;
+  
+  console.log("\n====== STATUS ======\n");
+
+  if (!response.skip) {
+    // Form basic transaction from LLM data
+    const recipientAddress = shortenedAddressBook[response.recipient];
+    if (!recipientAddress) throw new Error("Recipient address was not found!");
+
+    const transaction: NewTransaction = {
+      sender: getWalletAddress(getPublicKey(randomAgent.privateKey)),
+      recipient: recipientAddress,
+      amount: response.amount,
+      message: response.message,
+      timestamp: new Date().toISOString(),
+      publicKey: getPublicKey(randomAgent.privateKey)
+    };
+    const signedTransaction = await signTransaction(transaction, randomAgent.privateKey);
+    const postedTransaction = await postTransaction(signedTransaction);
+
+    if (postedTransaction) {
+      console.log("Network ACCEPTED agent's request!");
+    } else {
+      console.log("Network REJECETED agent's request!");
+    }
+  } else {
+    console.log("Agent requested to skip.");
+  }
+
+  // Save agent's data (assuming it was overwritten with more data)
+  saveAgents(agents);
+};
+
+function runRandomly() {
+  const MIN_DELAY = 12 * 60_000; // 12 minutes
+  const MAX_DELAY = 30 * 60_000; // 30 minutes
+  const BURST_CHANCE = 0.1;      // 10% chance for a short burst
+
+  async function loop() {
+    const numAgents = Math.random() < BURST_CHANCE
+      ? Math.floor(Math.random() * 3) + 2   // 2–4 agents in burst
+      : Math.random() < 0.7
+        ? 1                                 // most of the time, just 1
+        : 2;                                // occasionally 2
+
+    try {
+      for (let i = 0; i < numAgents; i++) {
+        await startAgents();
+        await sleep(1000 + Math.random() * 2000); // small pause between agents
+      }
+    } catch (err) {
+      console.error("Agent run failed:", err);
+    }
+
+    const delay = Math.random() * (MAX_DELAY - MIN_DELAY) + MIN_DELAY;
+    setTimeout(loop, delay);
+  }
+
+  function sleep(ms: number) {
+    console.log("Sleeping...");
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  loop();
+}
+
+runRandomly();
