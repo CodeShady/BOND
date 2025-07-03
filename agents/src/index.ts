@@ -24,13 +24,15 @@ const startAgents = async () => {
     const recipientAddress = shortenedAddressBook[response.recipient];
     if (!recipientAddress) throw new Error("Recipient address was not found!");
 
+    const pubKey = await getPublicKey(randomAgent.privateKey);
+
     const transaction: NewTransaction = {
-      sender: getWalletAddress(getPublicKey(randomAgent.privateKey)),
+      sender: getWalletAddress(pubKey),
       recipient: recipientAddress,
       amount: response.amount,
       message: response.message,
       timestamp: new Date().toISOString(),
-      publicKey: getPublicKey(randomAgent.privateKey)
+      publicKey: pubKey
     };
     const signedTransaction = await signTransaction(transaction, randomAgent.privateKey);
     const postedTransaction = await postTransaction(signedTransaction);

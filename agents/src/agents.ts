@@ -18,7 +18,7 @@ export const saveAgents = (agents: any) => {
 export const createAgentContext = async (agent: any) => {
   // Loop over each agent in list
   const prompt = [];
-  const publicKey = getPublicKey(agent.privateKey);
+  const publicKey = await getPublicKey(agent.privateKey);
   const walletAddress = getWalletAddress(publicKey);
   const transactions = await fetchTransactions(walletAddress);
   const allTransactions = await fetchAllTransactions();
