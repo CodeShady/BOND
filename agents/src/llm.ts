@@ -1,7 +1,15 @@
 import OpenAI from "openai";
-import LLMPrompt from "./llm/llm-prompt.json";
-import LLMSchema from "./llm/llm-schema.json";
+import path from "path";
+import fs from "fs";
 import { LLMResponse } from "./types";
+
+// Load JSON files synchronously at runtime
+const LLMPrompt = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "llm/llm-prompt.json"), "utf-8")
+);
+const LLMSchema = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "llm/llm-schema.json"), "utf-8")
+);
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
