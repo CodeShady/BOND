@@ -1,7 +1,7 @@
 import fs from "fs";
-import { getPublicKey, getWalletAddress } from "./crypto";
-import { fetchAllTransactions, fetchBalance, fetchTransactions } from "./fetch";
-import { Transaction } from "./types";
+import { getPublicKey, getWalletAddress } from "./crypto.js";
+import { fetchAllTransactions, fetchBalance, fetchTransactions } from "./fetch.js";
+import { Transaction } from "./types.js";
 
 export const shortenedAddressBook: Record<string, string> = {};
 const AGENT_PATH = "./agents.json";

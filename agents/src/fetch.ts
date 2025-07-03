@@ -1,7 +1,7 @@
 import axios from "axios";
 import urlJoin from "url-join";
-import { CORE_API_URL } from "./env";
-import { Block } from "./types";
+import { CORE_API_URL } from "./env.js";
+import { Block } from "./types.js";
 
 export const fetchAllTransactions = async () => {
   const res = await axios.get<Block[]>(urlJoin(CORE_API_URL, "/api/blocks/all"));
