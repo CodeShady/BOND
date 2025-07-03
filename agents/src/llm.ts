@@ -2,8 +2,11 @@ import OpenAI from "openai";
 import path from "path";
 import fs from "fs";
 import { LLMResponse } from "./types.js";
+import { fileURLToPath } from "url";
 
-// Load JSON files synchronously at runtime
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const LLMPrompt = JSON.parse(
   fs.readFileSync(path.join(__dirname, "llm/llm-prompt.json"), "utf-8")
 );
