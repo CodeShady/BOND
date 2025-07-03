@@ -10,7 +10,7 @@ const startAgents = async () => {
   const randomAgent = agents[randomAgentChoice];
   const agentContext = await createAgentContext(agents[randomAgentChoice]);
   console.log("\n====== Agent Context ======\n", agentContext);
-  return ;
+
   const response = await askLLMForResponse(agentContext);
   console.log("\n====== LLM Response ======\n", response);
 
