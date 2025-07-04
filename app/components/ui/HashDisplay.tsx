@@ -1,4 +1,5 @@
 import React from "react";
+import ClickToCopy from "./ClickToCopy";
 
 interface HashDisplayProps {
   hash: string;
@@ -6,22 +7,37 @@ interface HashDisplayProps {
   className?: string;
 }
 
-const HashDisplay: React.FC<HashDisplayProps> = ({ hash, chars = 4, className = "" }) => {
+const HashDisplay: React.FC<HashDisplayProps> = ({
+  hash,
+  chars = 4,
+  className = "",
+}) => {
+  let element;
+
   if (!hash || hash.length <= chars * 2) {
-    return <span className={`font-mono text-sm break-all ${className}`}>{hash}</span>;
+    element = hash;
+  } else {
+    const start = hash.slice(0, chars);
+    const end = hash.slice(-chars);
+
+    element = (
+      <>
+        {start}
+        <span className="text-muted-foreground">…</span>
+        {end}
+      </>
+    );
   }
-  const start = hash.slice(0, chars);
-  const end = hash.slice(-chars);
 
   return (
-    <span
-      className={`font-mono text-sm px-2.5 py-1 rounded-full bg-border tracking-wider ${className}`}
-      title={hash}
-    >
-      {start}
-      <span className="text-muted-foreground">…</span>
-      {end}
-    </span>
+    <ClickToCopy text={hash}>
+      <span
+        className={`code text-xs px-2.5 py-1 rounded-full bg-accent tracking-wider ${className}`}
+        title={hash}
+      >
+        {element}
+      </span>
+    </ClickToCopy>
   );
 };
 

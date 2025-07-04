@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Outfit, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { WalletProvider } from "@/lib/hooks/useWallet";
 import { cookies } from "next/headers";
@@ -8,6 +8,13 @@ import { getPublicKey, getWalletAddress } from "@/lib/crypto";
 const openSans = Outfit({
   subsets: ["latin"],
   display: "swap",
+});
+
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
@@ -26,7 +33,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${openSans.className} antialiased overflow-x-hidden`}>
+      <body className={`${openSans.className} ${jetBrainsMono.variable} antialiased overflow-x-hidden`}>
         {/* Background gradient blobs */}
         {/* <div className="pointer-events-none fixed top-1/2 -left-20 w-80 h-80 bg-accent/25 rounded-full blur-[100px] -translate-y-1/2" /> */}
         {/* <div className="pointer-events-none fixed top-0 -right-20 w-80 h-80 bg-accent/25 rounded-full blur-[100px]" /> */}

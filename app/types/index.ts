@@ -17,3 +17,12 @@ export interface NewTransaction {
   message: string;
   publicKey: string;
 }
+
+export interface Block {
+  height: number;
+  timestamp: string;
+  transactions: Transaction[];
+  previous_hash: string;
+  nonce: number;
+  hash: string;
+}
