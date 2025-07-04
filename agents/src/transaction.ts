@@ -4,6 +4,10 @@ import { NewTransaction } from "./types.js";
 import { CORE_API_URL } from "./env.js";
 import urlJoin from "url-join";
 import axios from "axios";
+import { webcrypto } from "crypto";
+
+// @ts-ignore
+if (!globalThis.crypto) globalThis.crypto = webcrypto;
 
 export const postTransaction = async (transaction: NewTransaction): Promise<boolean> => {
   const res = await axios.post(urlJoin(CORE_API_URL, "/api/transactions"), transaction);
