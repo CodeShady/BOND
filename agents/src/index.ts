@@ -8,7 +8,7 @@ const startAgents = async () => {
   const agents = loadAgents();
   const randomAgentChoice = Math.floor(Math.random() * agents.length);
   const randomAgent = agents[randomAgentChoice];
-  const agentContext = await createAgentContext(agents[randomAgentChoice]);
+  const agentContext = await createAgentContext(agents, randomAgentChoice);
   console.log("\n====== Agent Context ======\n", agentContext);
 
   const response = await askLLMForResponse(agentContext);
@@ -22,9 +22,9 @@ const startAgents = async () => {
   if (!response.skip) {
     // Form basic transaction from LLM data
     const recipientAddress = shortenedAddressBook[response.recipient];
-    if (!recipientAddress) throw new Error("Recipient address was not found!");
+    if (!recipientAddress) throw new Error(`Recipient address was not found in shortenedAddressBook[]`);
 
-    const pubKey = await getPublicKey(randomAgent.privateKey);
+    const pubKey = getPublicKey(randomAgent.privateKey);
 
     const transaction: NewTransaction = {
       sender: getWalletAddress(pubKey),

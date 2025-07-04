@@ -1,4 +1,5 @@
 export interface Agent {
+  name: string;
   privateKey: string;
   prompt: string;
   notes: string;

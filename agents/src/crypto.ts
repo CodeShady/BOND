@@ -8,7 +8,7 @@ import { createHash } from 'crypto';
  * Returns the public key (hex string) for a given private key (hex string).
  * @param privateKeyHex - 64-character hex string (with or without 0x prefix)
  */
-export async function getPublicKey(privateKeyHex: string): Promise<string> {
+export function getPublicKey(privateKeyHex: string): string {
   // Ensure the private key is a valid hex string (64 chars, no 0x prefix)
   const cleanHex = privateKeyHex.startsWith('0x') ? privateKeyHex.slice(2) : privateKeyHex;
   if (cleanHex.length !== 64) throw new Error('Private key must be 64 hex characters');
@@ -24,7 +24,7 @@ export async function getPublicKey(privateKeyHex: string): Promise<string> {
 /**
  * Generates a random private key as a 64-character hex string.
  */
-export const generatePrivateKey = async (): Promise<string> => {
+export const generatePrivateKey = (): string => {
   // Generate a random private key (Uint8Array)
   const privateKey = secp.utils.randomPrivateKey();
 

@@ -1,7 +1,7 @@
 import fs from "fs";
 import { getPublicKey, getWalletAddress } from "./crypto.js";
 import { fetchAllTransactions, fetchBalance, fetchTransactions } from "./fetch.js";
-import { Transaction } from "./types.js";
+import { Agent, Transaction } from "./types.js";
 
 export const shortenedAddressBook: Record<string, string> = {};
 const AGENT_PATH = "./agents.json";
@@ -15,7 +15,9 @@ export const saveAgents = (agents: any) => {
   fs.writeFileSync(AGENT_PATH, JSON.stringify(agents, null, 2));
 };
 
-export const createAgentContext = async (agent: any) => {
+export const createAgentContext = async (agents: Agent[], agentIndexToUse: number) => {
+  const agent = agents[agentIndexToUse];
+
   // Loop over each agent in list
   const prompt = [];
   const publicKey = await getPublicKey(agent.privateKey);
@@ -25,16 +27,28 @@ export const createAgentContext = async (agent: any) => {
   const balance = await fetchBalance(walletAddress);
 
   prompt.push("# About You");
-  prompt.push(agent.prompt);
+  prompt.push(`You are ${agent.name}. ${agent.prompt}`);
 
   if (agent.notes) {
     prompt.push("\n# Personal Notes");
     prompt.push(agent.notes);
   }
   
+  // Your Wallet
   prompt.push("\n# Your Wallet");
   prompt.push(`Address: ${walletAddress.slice(0, 8)}`);
   prompt.push(`Balance: ${balance} BOND`);
+
+  // Known wallets
+  prompt.push("\n# Known Wallets");
+  prompt.push("- 1ece0d9f (Finn) [founder]")
+  agents.map((otherAgent: Agent) => {
+    if (otherAgent.name === agent.name) return ;
+    const address = getWalletAddress(getPublicKey(otherAgent.privateKey));
+    const shortenedAddress = address.slice(0, 8);
+    shortenedAddressBook[shortenedAddress] = address;
+    prompt.push(`- ${shortenedAddress} (${otherAgent.name})`);
+  });
 
   prompt.push(`\n# Your Recent Transactions (oldest to newest):`);
   
