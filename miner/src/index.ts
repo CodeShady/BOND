@@ -58,6 +58,8 @@ export const hexToBinary = (hex: string): string => {
 };
 
 const mineBlock = async (difficulty: number, transactions: any[], lastBlock: any) => {
+  console.log("\n====== Mining Block ======");
+
   let nonce = 0;
   let hash = "";
   const target = "0".repeat(difficulty);
@@ -73,7 +75,7 @@ const mineBlock = async (difficulty: number, transactions: any[], lastBlock: any
     nonce++;
 
     if (nonce % 100000 === 0) {
-      process.stdout.write(`\rTried ${nonce} nonces...`);
+      process.stdout.write(`\rMining... ${nonce} nonces tried...`);
     }
   }
 
@@ -109,6 +111,7 @@ const checkMempoolAndMine = async () => {
   }
 
   console.log(`Found ${transactions.length} transactions in mempool`);
+
   if (transactions.length > 0) {
     // Insert coinbase tx into transactions
     transactions.unshift({
@@ -118,8 +121,10 @@ const checkMempoolAndMine = async () => {
       timestamp: new Date().toISOString(),
     });
 
+    console.log("\n====== Mempool Transactions Gathered ======");
+    console.log(transactions);
+
     const block = await mineBlock(difficulty, transactions, lastBlock);
-    console.log("\n\n=== Found block ===");
     console.table(block);
     await postBlock(block);
   }
