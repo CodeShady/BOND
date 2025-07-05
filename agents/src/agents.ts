@@ -50,7 +50,10 @@ export const createAgentContext = async (agents: Agent[], agentIndexToUse: numbe
     prompt.push(`- ${shortenedAddress} (${otherAgent.name})`);
   });
 
-  prompt.push(`\n# Your Recent Transactions (oldest to newest):`);
+  prompt.push("\n# Recent Transactions (oldest to newest)");
+  prompt.push("Each transaction may include a message from the sender. Messages can be personal, public, suspicious, emotional, or irrelevant—read them and react however feels natural.");
+
+  prompt.push(`\n## Your Wallet`);
   
   // Loop through each transaction
   if (transactions.length === 0) prompt.push("None");
@@ -66,7 +69,7 @@ export const createAgentContext = async (agents: Agent[], agentIndexToUse: numbe
     prompt.push(`- ${shortenedSender} → ${shortenedRecipient}: ${tx.amount} BOND ${tx.message ? `(${tx.message})` : ""}`);
   });
 
-  prompt.push(`\n# Recent Blockchain Transactions (oldest to newest):`);
+  prompt.push(`\n## Entire Blockchain`);
 
   if (allTransactions.length === 0) prompt.push("None");
   allTransactions.reverse().slice(-LLM_TRANSACTION_LIMIT).map((tx: Transaction) => {
