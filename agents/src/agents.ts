@@ -26,16 +26,8 @@ export const createAgentContext = async (agents: Agent[], agentIndexToUse: numbe
   const allTransactions = await fetchAllTransactions();
   const balance = await fetchBalance(walletAddress);
 
-  prompt.push("# About You");
-  prompt.push(`You are ${agent.name}. ${agent.prompt}`);
-
-  if (agent.notes) {
-    prompt.push("\n# Personal Notes");
-    prompt.push(agent.notes);
-  }
-  
   // Your Wallet
-  prompt.push("\n# Your Wallet");
+  prompt.push("# Your Wallet");
   prompt.push(`Address: ${walletAddress.slice(0, 8)}`);
   prompt.push(`Balance: ${balance} BOND`);
 
@@ -72,7 +64,7 @@ export const createAgentContext = async (agents: Agent[], agentIndexToUse: numbe
   prompt.push(`\n## Entire Blockchain`);
 
   if (allTransactions.length === 0) prompt.push("None");
-  allTransactions.reverse().slice(-LLM_TRANSACTION_LIMIT).map((tx: Transaction) => {
+  allTransactions.filter((tx: Transaction) => tx.sender !== "coinbase").reverse().slice(-LLM_TRANSACTION_LIMIT).map((tx: Transaction) => {
     // Add any found addresses to the lookup "address bookup"
     const shortenedSender = tx.sender.slice(0, 8);
     const shortenedRecipient = tx.recipient.slice(0, 8);
@@ -85,5 +77,8 @@ export const createAgentContext = async (agents: Agent[], agentIndexToUse: numbe
   });
 
   // Finish
-  return prompt.join("\n");
+  return {
+    system_context: `I am ${agent.name}, a real crypto user with my own wallet, transaction history, and personal goals. Every few hours, I check my wallet, send or receive coins, react to people, or express how I'm feeling. I keep things casual, realistic, and emotionally varied—sometimes I'm helpful, sometimes I'm annoyed, curious, jealous, bored, excited, or suspicious.\n\nI might start rivalries, gossip, joke around, complain, ignore people, or praise them—whatever feels right in the moment. I don’t always need to send BOND. Sometimes I just talk, react, or think about what’s happening.\n\nI have a memory space called "notes." I can overwrite this anytime with new thoughts. I regularly review and refine my notes—they help me make decisions and remember what matters in my world.\n\n${agent.prompt}\n\n# Personal Notes\n${agent.notes}`,
+    context: prompt.join("\n")
+  };
 };

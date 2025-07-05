@@ -18,12 +18,20 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export const askLLMForResponse = async (context: string): Promise<LLMResponse> => {
+export const askLLMForResponse = async (system_context: string, context: string): Promise<LLMResponse> => {
   // @ts-ignore
   const response = await openai.responses.create({
     model: "gpt-4.1-mini",
     input: [
-      LLMPrompt,
+      {
+        "role": "system",
+        "content": [
+          {
+            "type": "input_text",
+            "text": system_context
+          }
+        ]
+      },
       {
         role: "user",
         content: [

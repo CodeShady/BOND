@@ -15,10 +15,11 @@ const startAgents = async () => {
   const randomAgent = agents[randomAgentChoice];
   lastAgentIndex = randomAgentChoice; // Update tracker
 
-  const agentContext = await createAgentContext(agents, randomAgentChoice);
-  console.log("\n====== Agent Context ======\n", agentContext);
+  const { system_context, context } = await createAgentContext(agents, randomAgentChoice);
+  console.log("\n====== System Context ======\n", system_context);
+  console.log("\n====== Agent Context ======\n", context);
 
-  const response = await askLLMForResponse(agentContext);
+  const response = await askLLMForResponse(system_context, context);
   console.log("\n====== LLM Response ======\n", response);
 
   // Update (the ORIGINAL VALUE) agent notes
