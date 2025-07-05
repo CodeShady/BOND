@@ -4,10 +4,17 @@ import { askLLMForResponse } from "./llm.js";
 import { postTransaction, signTransaction } from "./transaction.js";
 import { NewTransaction } from "./types.js";
 
+let lastAgentIndex: number | null = null; // Track last agent
+
 const startAgents = async () => {
   const agents = loadAgents();
-  const randomAgentChoice = Math.floor(Math.random() * agents.length);
+  
+  // Build a list of eligible indices (exclude lastAgentIndex)
+  const eligibleIndices = agents.map((_: any, i: number) => i).filter((i: number) => i !== lastAgentIndex);
+  const randomAgentChoice = eligibleIndices[Math.floor(Math.random() * eligibleIndices.length)];
   const randomAgent = agents[randomAgentChoice];
+  lastAgentIndex = randomAgentChoice; // Update tracker
+
   const agentContext = await createAgentContext(agents, randomAgentChoice);
   console.log("\n====== Agent Context ======\n", agentContext);
 
@@ -52,7 +59,7 @@ const startAgents = async () => {
 
 function runRandomly() {
   const MIN_DELAY = 12 * 60_000; // 12 minutes
-  const MAX_DELAY = 30 * 60_000; // 30 minutes
+  const MAX_DELAY = 45 * 60_000; // 45 minutes
   const BURST_CHANCE = 0.1;      // 10% chance for a short burst
 
   async function loop() {
