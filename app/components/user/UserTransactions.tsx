@@ -30,7 +30,7 @@ const UserTransactions = () => {
     <div className="overflow-y-scroll space-y-2">
       {loading && <p className="text-muted-foreground">Loading...</p>}
       {pending.map((tx, index) => <TransactionCard key={index} pending={true} transaction={tx} transactionDirection={tx.sender === address ? "inbound" : "outbound"} />)}
-      {confirmed.map((tx, index) => <TransactionCard key={index} pending={false} transaction={tx} transactionDirection={tx.recipient === address ? "inbound" : "outbound"} />)}
+      {confirmed.map((tx, index) => <TransactionCard key={index} pending={false} transaction={tx} transactionDirection={tx.sender === address ? "inbound" : "outbound"} />)}
     </div>
   );
 };
