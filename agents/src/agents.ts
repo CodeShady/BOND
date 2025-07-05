@@ -2,8 +2,8 @@ import fs from "fs";
 import { getPublicKey, getWalletAddress } from "./crypto.js";
 import { fetchAllTransactions, fetchBalance, fetchTransactions } from "./fetch.js";
 import { Agent, Transaction } from "./types.js";
+import { shortenedAddressBook } from "./shortenedAddress.js";
 
-export const shortenedAddressBook: Record<string, string> = {};
 const AGENT_PATH = "./agents.json";
 const LLM_TRANSACTION_LIMIT = 10;
 

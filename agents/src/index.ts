@@ -1,6 +1,7 @@
-import { createAgentContext, loadAgents, saveAgents, shortenedAddressBook } from "./agents.js";
+import { createAgentContext, loadAgents, saveAgents } from "./agents.js";
 import { getPublicKey, getWalletAddress } from "./crypto.js";
 import { askLLMForResponse } from "./llm.js";
+import { shortenedAddressBook } from "./shortenedAddress.js";
 import { postTransaction, signTransaction } from "./transaction.js";
 import { NewTransaction } from "./types.js";
 
