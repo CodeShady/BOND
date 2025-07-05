@@ -63,6 +63,20 @@ function runRandomly() {
   const BURST_CHANCE = 0.1;      // 10% chance for a short burst
 
   async function loop() {
+    const now = new Date();
+    const hour = now.getHours(); // 0–23 local time
+
+    // Completely skip between 2am–7am
+    if (hour >= 2 && hour < 7) {
+      const skipDelay = 60 * 60_000; // Sleep for 1 hour before checking again
+      console.log(`⏰ It's ${hour}h – sleeping for 1 hour (night mode)`);
+      return setTimeout(loop, skipDelay);
+    }
+
+    // During semi-sleep hours, add a multiplier to the delay
+    const isLowActivityHour = (hour >= 23 || hour < 2 || hour < 9);
+    const activityMultiplier = isLowActivityHour ? (1.5 + Math.random()) : 1;
+
     const numAgents = Math.random() < BURST_CHANCE
       ? Math.floor(Math.random() * 3) + 2   // 2–4 agents in burst
       : Math.random() < 0.7
@@ -72,18 +86,20 @@ function runRandomly() {
     try {
       for (let i = 0; i < numAgents; i++) {
         await startAgents();
-        await sleep(1000 + Math.random() * 2000); // small pause between agents
+        await sleep(1000 + Math.random() * 2000);
       }
     } catch (err) {
       console.error("Agent run failed:", err);
     }
 
-    const delay = Math.random() * (MAX_DELAY - MIN_DELAY) + MIN_DELAY;
-    setTimeout(loop, delay);
+    const baseDelay = Math.random() * (MAX_DELAY - MIN_DELAY) + MIN_DELAY;
+    const adjustedDelay = baseDelay * activityMultiplier;
+
+    console.log(`⏳ Next run in ${(adjustedDelay / 60000).toFixed(1)} min`);
+    setTimeout(loop, adjustedDelay);
   }
 
   function sleep(ms: number) {
-    console.log("Sleeping...");
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
