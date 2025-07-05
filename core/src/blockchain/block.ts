@@ -48,7 +48,7 @@ export class Block {
 
     // Ensure first transaction is a coinbase tx
     const coinbaseTx = this.transactions[0];
-    if (!isCoinbaseTx(coinbaseTx!)) {
+    if (!isCoinbaseTx(coinbaseTx)) {
       throw new Error(`First transaction must be coinbase tx to miner address with "coinbase" as sender.`);
     }
 
